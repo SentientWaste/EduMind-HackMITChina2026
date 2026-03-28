@@ -6,7 +6,7 @@
 			 xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              xmlns:uip="clr-namespace:FluentAvalonia.UI.Controls.Primitives;assembly=FluentAvalonia"
              x:Class="EduMindAI.App"
-             RequestedThemeVariant="Light">
+             RequestedThemeVariant="Default">
     
     <Application.Styles>
         <FluentTheme />

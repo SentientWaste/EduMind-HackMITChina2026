@@ -55,16 +55,17 @@
             </StackPanel>
         </Border>
 
+
         <!-- 主要内容区 -->
         <ScrollViewer Grid.Row="1" Margin="20">
             <StackPanel Spacing="20">
-                
                 <!-- 文件上传区域 -->
                 <Border Background="{DynamicResource UploadAreaBackgroundBrush}" 
                         CornerRadius="12" 
                         Padding="40" 
                         BorderBrush="{DynamicResource UploadAreaBorderBrush}" 
                         BorderThickness="1">
+                    
                     <StackPanel HorizontalAlignment="Center" 
                                VerticalAlignment="Center"
                                Spacing="15">
@@ -151,13 +152,12 @@
                             BorderThickness="1"
                             BorderBrush="{DynamicResource UploadIconBrush}"
                             Foreground="{DynamicResource UploadIconBrush}"
-                            CornerRadius="8"
                             IsEnabled="{Binding IsSummaryReady}"
                             Command="{Binding CopySummaryCommand}"/>
+
                     <Button Content="重新总结" 
                             Padding="20,10"
                             Classes="accent"
-                            CornerRadius="8"
                             IsEnabled="{Binding IsFileSelected}"
                             Command="{Binding ResummarizeCommand}"/>
                 </StackPanel>

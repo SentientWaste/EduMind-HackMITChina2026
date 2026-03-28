@@ -11,8 +11,7 @@
     
     <!-- 在资源里定义画刷，方便后端修改 -->
     <UserControl.Resources>
-        <SolidColorBrush x:Key="DateHeaderBrush" Color="#0078D4"/>
-        <SolidColorBrush x:Key="CardBackgroundBrush" Color="White"/>
+<!--        <SolidColorBrush x:Key="DateHeaderBrush" Color="#0078D4"/>
         <SolidColorBrush x:Key="CardHoverBrush" Color="#F5F5F5"/>
         <SolidColorBrush x:Key="CardTextBrush" Color="#2D2D2D"/>
         <SolidColorBrush x:Key="PreviewTextBrush" Color="#666666"/>
@@ -20,80 +19,92 @@
         <SolidColorBrush x:Key="TimeTagTextBrush" Color="#666666"/>
         <SolidColorBrush x:Key="SearchBoxBackgroundBrush" Color="#F5F5F5"/>
         <SolidColorBrush x:Key="TopBarBackgroundBrush" Color="White"/>
-        <SolidColorBrush x:Key="SearchBoxBorderBrush" Color="#E6E6E6"/>
+        <SolidColorBrush x:Key="SearchBoxBorderBrush" Color="#E6E6E6"/>-->
+
+        <DataTemplate x:Key="SessionCardTemplate" x:DataType="vm:SessionItem">
+            <Border Classes="SessionCard"
+                    PointerPressed="OnSessionClicked"
+                    Tag="{Binding Id}">
+                
+                <!-- 右键菜单 -->
+                <Border.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="删除"
+                                  Classes="DeleteItem"
+                                  Tag="{Binding Id}"
+                                  Click="OnDeleteSessionClicked"/>
+                    </ContextMenu>
+                </Border.ContextMenu>
+                
+                <Grid RowDefinitions="auto auto" 
+                      ColumnDefinitions="* auto">
+  
+                    <TextBlock Text="{Binding Title}" 
+                               FontSize="16" 
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                               Grid.Row="0" />
+                    
+                    <Border Classes="TimeTag"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                        <TextBlock FontSize="10"
+                                   Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                   Text="{Binding Time}" />
+                    </Border>
+  
+                    <TextBlock Grid.Row="1" 
+                              Grid.ColumnSpan="2"
+                              FontSize="14" 
+                              Text="{Binding Preview}"
+                              Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                              Margin="0,0,0,0"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
     </UserControl.Resources>
 
-    <UserControl.Styles>
-        <!-- 日期分组样式 -->
-        <Style Selector="TextBlock.DateHeader">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource DateHeaderBrush}"/>
-            <Setter Property="Margin" Value="0,20,0,10"/>
-        </Style>
-        
+    <UserControl.Styles>        
         <!-- 会话卡片样式 -->
         <Style Selector="Border.SessionCard">
-            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-            <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
-            
-            <!-- 用 TranslateTransform 做变换 -->
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <TranslateTransform X="0"/>
-                </Setter.Value>
-            </Setter>
-            
-            <!-- 用 ThicknessTransition 做动画 -->
-            <Setter Property="Transitions">
-                <Setter.Value>
-                    <Transitions>
-                        <ThicknessTransition 
-                            Property="Margin" 
-                            Duration="0:0:0.35" 
-                            Easing="CubicEaseOut"/>
-                    </Transitions>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Margin" Value="0 0 0 12"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BoxShadow" Value="0 2 4 rgba(0,0,0,0.05)"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
         </Style>
 
         <!-- 鼠标悬停时增加左边距和阴影 -->
         <Style Selector="Border.SessionCard:pointerover">
-            <Setter Property="Background" Value="{StaticResource CardHoverBrush}"/>
-            <Setter Property="Margin" Value="10,0,0,10"/>
-            <Setter Property="BoxShadow" Value="0 4 12 rgba(0,0,0,0.15)"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}"/>
+            <Setter Property="BoxShadow" Value="0 2 8 rgba(0,0,0,0.1)"/>
         </Style>
         
         <!-- 预览文本样式 -->
         <Style Selector="TextBlock.PreviewText">
-            <Setter Property="Foreground" Value="{StaticResource PreviewTextBrush}"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
         </Style>
         
         <!-- 时间标签样式 -->
         <Style Selector="Border.TimeTag">
-            <Setter Property="Background" Value="{StaticResource TimeTagBackgroundBrush}"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Padding" Value="4 2"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Background" Value="{DynamicResource ControlStrongFillColorDefaultBrush}"/>
         </Style>
         
         <!-- 搜索框样式 -->
         <Style Selector="TextBox.SearchBox">
-            <Setter Property="Background" Value="{StaticResource SearchBoxBackgroundBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource SearchBoxBackgroundBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="{StaticResource SearchBoxBorderBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SearchBoxBorderBrush}"/>
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="Padding" Value="16,10"/>
-            <Setter Property="Foreground" Value="{StaticResource CardTextBrush}"/>
-        </Style>
-        
-        <!-- 顶部栏样式 -->
-        <Style Selector="Border.TopBar">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Padding" Value="20,15"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
         </Style>
         
         <!-- 右键菜单样式 -->
@@ -101,16 +112,15 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="#E0E0E0"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Padding" Value="0"/>
         </Style>
         
         <Style Selector="MenuItem">
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource CardTextBrush}"/>
-            <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="12 8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
         </Style>
         
         <Style Selector="MenuItem:pointerover">
@@ -126,209 +136,63 @@
             <Setter Property="Foreground" Value="White"/>
         </Style>
     </UserControl.Styles>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
+    
+    <Grid RowDefinitions="auto *">
         <!-- 顶部搜索栏 -->
-<!-- 在顶部搜索栏旁边添加按钮 -->
-<Border Grid.Row="0" Classes="TopBar">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBox Grid.Column="0"
-                x:Name="SearchBox"
-                Watermark="搜索历史会话..."
-                Text="{Binding SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Classes="SearchBox"/>
-
-        <!-- 导出历史按钮 -->
-        <Button Grid.Column="2" 
-                CornerRadius="10"
-                Margin="10,0,0,0"
-                Command="{Binding ExportCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="5">
-                <ui:SymbolIcon Symbol="Download" FontSize="14"/>
-                <TextBlock Text="导出历史"/>
-            </StackPanel>
-        </Button>
-    </Grid>
-</Border>
-        <!-- 会话列表 -->
-        <ScrollViewer Grid.Row="1" 
-                      x:Name="SessionScrollViewer"
-                      Margin="20"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto">
+        <Border Padding="24 16"
+                Grid.Row="0">
             
+            <Grid ColumnDefinitions="* auto auto">
+                <TextBox Grid.Column="0"
+                         Name="SearchBox"
+                         Watermark="搜索历史会话..."
+                         Text="{Binding SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <!-- 导出历史按钮 -->
+                <Button Margin="8 0 0 0"
+                        Command="{Binding ExportCommand}"
+                        Grid.Column="2" >
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <ui:SymbolIcon Symbol="Download" FontSize="14"/>
+                        <TextBlock Text="导出历史"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+        
+        <ScrollViewer Padding="24 0"
+                      Name="SessionScrollViewer"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Grid.Row="1">   
             <StackPanel>
                 <!-- 今日 -->
-                <TextBlock Text="今日" Classes="DateHeader"/>
-                <ItemsControl x:Name="TodayList" ItemsSource="{Binding TodaySessions}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Classes="SessionCard"
-                                    PointerPressed="OnSessionClicked"
-                                    Tag="{Binding Id}">
-                                
-                                <!-- 右键菜单 -->
-                                <Border.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="删除"
-                                                  Classes="DeleteItem"
-                                                  Tag="{Binding Id}"
-                                                  Click="OnDeleteSessionClicked"/>
-                                    </ContextMenu>
-                                </Border.ContextMenu>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Row="0" 
-                                              Text="{Binding Title}" 
-                                              FontSize="16" 
-                                              FontWeight="SemiBold"
-                                              Foreground="{StaticResource CardTextBrush}"/>
-                                    
-                                    <Border Grid.Row="0" 
-                                            Grid.Column="1"
-                                            Classes="TimeTag">
-                                        <TextBlock Text="{Binding Time}" 
-                                                  FontSize="12"
-                                                  Foreground="{StaticResource TimeTagTextBrush}"/>
-                                    </Border>
-
-                                    <TextBlock Grid.Row="1" 
-                                              Grid.ColumnSpan="2"
-                                              Text="{Binding Preview}"
-                                              Classes="PreviewText"
-                                              Margin="0,5,0,0"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
+                <TextBlock Text="今天"
+                           Margin="0 0 0 12"
+                           Theme="{StaticResource BodyStrongTextBlockStyle}"/>
+                
+                <ItemsControl Name="TodayList"
+                              ItemsSource="{Binding TodaySessions}"
+                              ItemTemplate="{StaticResource SessionCardTemplate}"/>
+                
                 <!-- 昨天 -->
-                <TextBlock Text="昨天" Classes="DateHeader" Margin="0,20,0,10"/>
-                <ItemsControl x:Name="YesterdayList" ItemsSource="{Binding YesterdaySessions}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Classes="SessionCard"
-                                    PointerPressed="OnSessionClicked"
-                                    Tag="{Binding Id}">
-                                
-                                <Border.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="删除"
-                                                  Classes="DeleteItem"
-                                                  Tag="{Binding Id}"
-                                                  Click="OnDeleteSessionClicked"/>
-                                    </ContextMenu>
-                                </Border.ContextMenu>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Row="0" 
-                                              Text="{Binding Title}" 
-                                              FontSize="16" 
-                                              FontWeight="SemiBold"
-                                              Foreground="{StaticResource CardTextBrush}"/>
-                                    
-                                    <Border Grid.Row="0" 
-                                            Grid.Column="1"
-                                            Classes="TimeTag">
-                                        <TextBlock Text="{Binding Time}" 
-                                                  FontSize="12"
-                                                  Foreground="{StaticResource TimeTagTextBrush}"/>
-                                    </Border>
-
-                                    <TextBlock Grid.Row="1" 
-                                              Grid.ColumnSpan="2"
-                                              Text="{Binding Preview}" 
-                                              Classes="PreviewText"
-                                              Margin="0,5,0,0"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
+                <TextBlock Text="昨天"
+                           Margin="0 0 0 12"
+                           Theme="{StaticResource BodyStrongTextBlockStyle}"/>
+                
+                <ItemsControl Name="YesterdayList" 
+                              ItemsSource="{Binding YesterdaySessions}"
+                              ItemTemplate="{StaticResource SessionCardTemplate}"/>
+                
                 <!-- 更早 -->
-                <TextBlock Text="更早" Classes="DateHeader" Margin="0,20,0,10"/>
-                <ItemsControl x:Name="EarlierList" ItemsSource="{Binding EarlierSessions}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Classes="SessionCard"
-                                    PointerPressed="OnSessionClicked"
-                                    Tag="{Binding Id}">
-                                
-                                <Border.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="删除"
-                                                  Classes="DeleteItem"
-                                                  Tag="{Binding Id}"
-                                                  Click="OnDeleteSessionClicked"/>
-                                    </ContextMenu>
-                                </Border.ContextMenu>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Row="0" 
-                                              Text="{Binding Title}" 
-                                              FontSize="16" 
-                                              FontWeight="SemiBold"
-                                              Foreground="{StaticResource CardTextBrush}"/>
-                                    
-                                    <Border Grid.Row="0" 
-                                            Grid.Column="1"
-                                            Classes="TimeTag">
-                                        <TextBlock Text="{Binding Time}" 
-                                                  FontSize="12"
-                                                  Foreground="{StaticResource TimeTagTextBrush}"/>
-                                    </Border>
-
-                                    <TextBlock Grid.Row="1" 
-                                              Grid.ColumnSpan="2"
-                                              Text="{Binding Preview}" 
-                                              Classes="PreviewText"
-                                              Margin="0,5,0,0"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
+                <TextBlock Text="更早"
+                           Margin="0 0 0 12"
+                           Theme="{StaticResource BodyStrongTextBlockStyle}"/>
+                
+                <ItemsControl Name="EarlierList" 
+                              ItemsSource="{Binding EarlierSessions}"
+                              ItemTemplate="{StaticResource SessionCardTemplate}"/>
+                
                 <!-- 空状态 -->
                 <Border IsVisible="{Binding IsEmpty}"
                         Height="300"
