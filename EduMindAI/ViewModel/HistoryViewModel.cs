@@ -44,7 +44,7 @@ public partial class HistoryViewModel : ObservableObject
     {
         var sessions = await _storageService.GetAllSessions();
 
-        _allSessions = new List<SessionItem>();
+        _allSessions = [];
 
         foreach (var session in sessions)
         {

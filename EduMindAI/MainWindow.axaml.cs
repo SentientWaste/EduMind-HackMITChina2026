@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Threading;
 using EduMindAI.ViewModel;
 using EduMindAI.Views;
 using EduMindIAI.ViewModel;
@@ -29,11 +30,14 @@ public partial class MainWindow : Window {
         }
     }
 
-    [Obsolete("改为使用 Messenger")]
     public async void NavigateToSession(int sessionId) {
         // 每次都全新
         var homeVm = new HomeViewModel();
+
+        Dispatcher.UIThread.Post(() => {
+            ContentFrame.Navigate(typeof(HomeView));
+        });
+
         await homeVm.LoadSession(sessionId);
-        ContentFrame.Content = new HomeView { DataContext = homeVm };
     }
 }

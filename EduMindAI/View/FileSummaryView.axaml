@@ -7,26 +7,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="EduMindAI.FileSummaryView"
              x:DataType="vm:FileSummaryViewModel">
-    
-    <UserControl.Resources>
-        <!-- 定义主题相关的画刷资源 -->
-        <SolidColorBrush x:Key="TitleBackgroundBrush" Color="White"/>
-        <SolidColorBrush x:Key="TitleTextBrush" Color="#2D2D2D"/>
-        <SolidColorBrush x:Key="SubtitleTextBrush" Color="#666666"/>
-        <SolidColorBrush x:Key="UploadAreaBackgroundBrush" Color="#F5F5F5"/>
-        <SolidColorBrush x:Key="UploadAreaBorderBrush" Color="#E0E0E0"/>
-        <SolidColorBrush x:Key="UploadIconBrush" Color="#0078D4"/>
-        <SolidColorBrush x:Key="FileInfoBackgroundBrush" Color="#F9F9F9"/>
-        <SolidColorBrush x:Key="FileNameTextBrush" Color="#2D2D2D"/>
-        <SolidColorBrush x:Key="FileSizeTextBrush" Color="#999999"/>
-        <SolidColorBrush x:Key="ExpanderBackgroundBrush" Color="White"/>
-        <SolidColorBrush x:Key="SummaryBackgroundBrush" Color="#FAFAFA"/>
-        <SolidColorBrush x:Key="SummaryTextBrush" Color="#2D2D2D"/>
-        <SolidColorBrush x:Key="LoadingTextBrush" Color="#666666"/>
-        <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#F0F0F0"/>
-        <SolidColorBrush x:Key="BottomBarTextBrush" Color="#666666"/>
-    </UserControl.Resources>
-
     <UserControl.DataContext>
         <vm:FileSummaryViewModel />
     </UserControl.DataContext>
@@ -40,18 +20,19 @@
 
         <!-- 标题 -->
         <Border Grid.Row="0" 
-                Background="{DynamicResource TitleBackgroundBrush}" 
-                Padding="20,15"
-                BoxShadow="0 2 8 rgba(0,0,0,0.05)">
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                Padding="24 16"
+                BoxShadow="0 2 4 rgba(0,0,0,0.1)">
             <StackPanel>
                 <TextBlock Text="文件总结" 
                           FontSize="24" 
                           FontWeight="Bold"
-                          Foreground="{DynamicResource TitleTextBrush}"/>
+                          Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
                 <TextBlock Text="上传 PDF、Word、TXT 文件，AI 自动提取要点" 
                           FontSize="13"
-                          Foreground="{DynamicResource SubtitleTextBrush}"
-                          Margin="0,5,0,0"/>
+                          Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                          Margin="0 2 0 0"/>
             </StackPanel>
         </Border>
 
@@ -60,73 +41,72 @@
         <ScrollViewer Grid.Row="1" Margin="20">
             <StackPanel Spacing="20">
                 <!-- 文件上传区域 -->
-                <Border Background="{DynamicResource UploadAreaBackgroundBrush}" 
+                <Border Background="Transparent"
                         CornerRadius="12" 
-                        Padding="40" 
-                        BorderBrush="{DynamicResource UploadAreaBorderBrush}" 
+                        Padding="36" 
+                        BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" 
                         BorderThickness="1">
                     
                     <StackPanel HorizontalAlignment="Center" 
                                VerticalAlignment="Center"
-                               Spacing="15">
+                               Spacing="12">
                         <ui:SymbolIcon Symbol="Upload" 
                                       FontSize="48"
-                                      Foreground="{DynamicResource UploadIconBrush}"/>
+                                      Foreground="{DynamicResource SystemAccentColor}"/>
                         <TextBlock Text="点击按钮上传文件到此处" 
                                   FontSize="16"
-                                  Foreground="{DynamicResource TitleTextBrush}"/>
+                                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
                         <TextBlock Text="支持 PDF、Word、TXT 格式" 
                                    HorizontalAlignment="Center"
                                   FontSize="12"
-                                  Foreground="{DynamicResource SubtitleTextBrush}"/>
+                                  Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+
                         <Button Content="选择文件" 
                                 Classes="accent"
                                 HorizontalAlignment="Center"
-                                CornerRadius="20"
                                 Padding="20,8"
                                 Command="{Binding PickFileCommand}"/>
                     </StackPanel>
                 </Border>
 
                 <!-- 文件信息 -->
-                <Border Background="{DynamicResource FileInfoBackgroundBrush}" 
-                        CornerRadius="12" 
+                <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6" 
                         Padding="16"
                         IsVisible="{Binding IsFileSelected}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid ColumnDefinitions="auto * auto">
                         <ui:SymbolIcon Grid.Column="0" 
                                       Symbol="Document" 
                                       FontSize="20"
                                       Foreground="{DynamicResource UploadIconBrush}"/>
+
                         <TextBlock Grid.Column="1" 
                                    Text="{Binding FileName}"
                                    Margin="12,0"
                                    VerticalAlignment="Center"
-                                   Foreground="{DynamicResource FileNameTextBrush}"/>
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
                         <TextBlock Grid.Column="2" 
                                    Text="{Binding FileSize}"
-                                   Foreground="{DynamicResource FileSizeTextBrush}"/>
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
                     </Grid>
                 </Border>
 
                 <!-- 总结区域 -->
                 <Expander Header="📝 AI 总结" 
                           IsExpanded="True"
-                          Background="{DynamicResource ExpanderBackgroundBrush}"
                           CornerRadius="12">
-                    <Border Background="{DynamicResource SummaryBackgroundBrush}" 
+                    <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
                             CornerRadius="8" 
                             Padding="16"
                             MinHeight="200">
                         <StackPanel Spacing="12">
                             <TextBlock Text="{Binding SummaryText}"
                                       TextWrapping="Wrap"
-                                      Foreground="{DynamicResource SummaryTextBrush}"
+                                      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                       FontSize="14"/>
                             
                             <!-- 加载中动画 -->
@@ -135,7 +115,7 @@
                                     Padding="20">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <ui:ProgressRing Width="20" Height="20" IsIndeterminate="True"/>
-                                    <TextBlock Text="AI 正在分析中..." Foreground="{DynamicResource LoadingTextBrush}"/>
+                                    <TextBlock Text="AI 正在分析中..." Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -147,16 +127,14 @@
                             HorizontalAlignment="Right" 
                             Spacing="12">
                     <Button Content="复制结果" 
-                            Padding="20,10"
+                            Padding="16 8"
                             Background="Transparent"
                             BorderThickness="1"
-                            BorderBrush="{DynamicResource UploadIconBrush}"
-                            Foreground="{DynamicResource UploadIconBrush}"
                             IsEnabled="{Binding IsSummaryReady}"
                             Command="{Binding CopySummaryCommand}"/>
 
                     <Button Content="重新总结" 
-                            Padding="20,10"
+                            Padding="16 8"
                             Classes="accent"
                             IsEnabled="{Binding IsFileSelected}"
                             Command="{Binding ResummarizeCommand}"/>
@@ -166,11 +144,10 @@
 
         <!-- 底部提示 -->
         <Border Grid.Row="2" 
-                Background="{DynamicResource BottomBarBackgroundBrush}" 
                 Padding="20,12">
             <TextBlock Text="💡 提示：文件内容会被发送给 AI 进行分析，请勿上传敏感文件"
                       FontSize="12"
-                      Foreground="{DynamicResource BottomBarTextBrush}"
+                      Foreground="{DynamicResource TextFillColorTertiaryBrush}"
                       HorizontalAlignment="Center"/>
         </Border>
     </Grid>

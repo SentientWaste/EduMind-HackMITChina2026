@@ -187,22 +187,19 @@ public partial class HomeViewModel : ObservableObject {
     public async Task LoadSession(int sessionId) {
         System.Diagnostics.Debug.WriteLine($"HomeViewModel.LoadSession({sessionId})");
 
-        var (session, messages) = await _storageService.GetSessionWithMessages(sessionId);
+        var (session, messages) = await Task.Run(() => _storageService.GetSessionWithMessages(sessionId));
 
-        await Dispatcher.UIThread.InvokeAsync(() => {
-            Messages.Clear();
-            foreach (var msg in messages) {
-                Messages.Add(new ChatMessage {
-                    Content = msg.Content,
-                    IsUser = msg.IsUser,
-                    Timestamp = msg.Timestamp.ToString("HH:mm")
-                });
-            }
+        Messages.Clear();
+        foreach (var msg in messages) {
+            Messages.Add(new ChatMessage {
+                Content = msg.Content,
+                IsUser = msg.IsUser,
+                Timestamp = msg.Timestamp.ToString("HH:mm")
+            });
+        }
 
-            _currentSessionId = sessionId;
-            OnPropertyChanged(nameof(Messages));
-            System.Diagnostics.Debug.WriteLine($"加载完成，Messages 数量: {Messages.Count}");
-        });
+        _currentSessionId = sessionId;
+        System.Diagnostics.Debug.WriteLine($"加载完成，Messages 数量: {Messages.Count}");
     }
 
     private async IAsyncEnumerable<string> CallOllamaStreamAsync(string prompt) {
