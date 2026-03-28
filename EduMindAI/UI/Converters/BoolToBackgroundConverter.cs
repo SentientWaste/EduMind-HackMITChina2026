@@ -3,7 +3,7 @@ using Avalonia.Media;
 using System;
 using System.Globalization;
 
-namespace EduMindAI.Converters;
+namespace EduMindAI.UI.Converters;
 
 public class BoolToBackgroundConverter : IValueConverter
 {

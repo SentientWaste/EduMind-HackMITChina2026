@@ -10,7 +10,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="EduMindAI.Views.HomeView"
              x:DataType="vm:HomeViewModel">
-    
     <UserControl.Resources>
         <!-- 亮色主题画刷 -->
         <SolidColorBrush x:Key="UserMessageBrush" Color="#0078D4"/>
@@ -29,10 +28,6 @@
         
         <DynamicResource x:Key="MicButtonHoverBackground" ResourceKey="MicButtonHoverBackgroundLight"/>
         <DynamicResource x:Key="MicButtonPressedBackground" ResourceKey="MicButtonPressedBackgroundLight"/>
-        
-        <!-- 转换器 -->
-        <converters:BoolToColorConverter x:Key="BoolToColor"/>
-        <converters:BoolToBackgroundConverter x:Key="BoolToBackground"/>
     </UserControl.Resources>
 
     <UserControl.Styles>
@@ -156,7 +151,7 @@
         <!-- 聊天消息列表 -->
         <ScrollViewer Grid.Row="0" 
                       x:Name="MessageScrollViewer"
-                      Margin="20"
+                      Padding="24"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
             
@@ -226,7 +221,7 @@
                                 <!-- 时间戳 -->
                                 <TextBlock Text="{Binding Timestamp}" 
                                           Classes="Timestamp"
-                                          HorizontalAlignment="{Binding IsUser, Converter={StaticResource BoolToAlignment}}"/>
+                                          HorizontalAlignment="{Binding IsUser, Converter={StaticResource BoolToAlignmentConverter}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -251,7 +246,7 @@
         <!-- 底部输入区域 -->
         <Border Grid.Row="1" 
                 Background="Transparent"
-                Padding="20,15">
+                Padding="24">
             
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -268,7 +263,7 @@
                         Command="{Binding ToggleListeningCommand}">
                     <ui:SymbolIcon Symbol="Microphone" 
                                   FontSize="20"
-                                  Foreground="{Binding IsListening, Converter={StaticResource BoolToColor}}"/>
+                                  Foreground="{Binding IsListening, Converter={StaticResource BoolToColorConverter}}"/>
                 </Button>
 
                 <!-- 输入框 -->
