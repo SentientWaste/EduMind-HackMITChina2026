@@ -89,22 +89,22 @@ dotnet run --project EduMind
 git clone https://github.com/yourusername/EduMind.git
 cd EduMind
 ```
-
+---
 ## 🎯 使用指南 | Usage Guide
-
-###💬 开始对话
+---
+### 💬 开始对话
 - 打开应用进入聊天界面
 - 在输入框输入问题
 - 点击发送按钮
 - AI 实时回复
 
-###📤 总结文件
+### 📤 总结文件
 - 点击输入框旁的附件按钮
 - 选择 PDF、Word、图片等文件
 - 等待 AI 提取内容并生成摘要
 - 总结结果以对话形式展示
 
-###📊  生成报告
+### 📊  生成报告
 - 进入"学习报告"页面
 - 选择报告周期
 - 点击"生成报告"
