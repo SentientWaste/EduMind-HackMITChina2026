@@ -71,7 +71,7 @@ EduMind 结合现代化的 Fluent UI 设计、本地大语言模型 (Ollama) 和
 
 **1. 克隆项目**
 ```bash
-git clone https://github.com/yourusername/EduMind.git
+git clone https://github.com/SentientWaste/EduMind-HackMITChina2026.git
 cd EduMind
 ```
 
@@ -86,7 +86,7 @@ dotnet restore
 dotnet run --project EduMind
 ```
 ```bash
-git clone https://github.com/yourusername/EduMind.git
+git clone https://github.com/SentientWaste/EduMind-HackMITChina2026.git
 cd EduMind
 ```
 ---
