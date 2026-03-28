@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:EduMindAI.ViewModel"
+             
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EduMindAI.SettingView"
+             x:DataType="vm:SettingViewModel">
+
+<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="设置" 
+                   FontSize="26" 
+                   FontWeight="Bold" 
+                   Margin="30 30 30 20"/>
+
+        <ScrollViewer Grid.Row="1" 
+                      Margin="30 0 30 30">
+            <StackPanel Spacing="10">
+                <Expander Header="基础设置" 
+                      CornerRadius="10"
+                      VerticalAlignment="Top"
+                      IsExpanded="True"
+                      HorizontalAlignment="Stretch">
+                    <StackPanel>
+						<TextBlock Text="模型选择"/>
+                        <WrapPanel>
+                            <ui:FAComboBox Width="125" CornerRadius="10" ItemsSource="{Binding Models}"
+          SelectedItem="{Binding SelectedModel}"
+                                            Margin="0 10 10 0">
+                            </ui:FAComboBox>
+                        </WrapPanel>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="详情简介" 
+                      CornerRadius="10"
+                      VerticalAlignment="Top"
+                      IsExpanded="True"
+                      HorizontalAlignment="Stretch">
+                    <StackPanel>
+                        <WrapPanel>
+						    <TextBlock Text="版本号"/>						
+                            <TextBlock Margin="10 0 0 0" Text="Beta-0.0.2"/>
+                        </WrapPanel>
+						<TextBlock Text="引用项目" Margin="0 10 0 0"/>
+						<HyperlinkButton Content="Avalonia - https://avaloniaui.net/" NavigateUri="https://avaloniaui.net/" Margin="0 5 0 0"/>
+						<HyperlinkButton Content="FluentAvalonia - https://github.com/amwx/FluentAvalonia" NavigateUri="https://github.com/amwx/FluentAvalonia" Margin="0 5 0 0"/>
+						<HyperlinkButton NavigateUri="https://ollama.com/" Content="Ollama qwen3.5 - https://ollama.com/" Margin="0 5 0 0"/>
+						<HyperlinkButton NavigateUri="https://learn.microsoft.com/zh-cn/dotnet/communitytoolkit/mvvm/" Content="CommunityToolkit.Mvvm - https://learn.microsoft.com/zh-cn/dotnet/communitytoolkit/mvvm/" Margin="0 5 0 0"/>
+						<HyperlinkButton NavigateUri="https://www.nuget.org/packages/DocumentFormat.OpenXml/" Content="DocumentFormat.OpenXml - https://www.nuget.org/packages/DocumentFormat.OpenXml/" Margin="0 5 0 0"/>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

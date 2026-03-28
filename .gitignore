@@ -1,0 +1,58 @@
+# .NET Core
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userprefs
+*.userosscache
+*.dll
+*.exe
+*.pdb
+*.cache
+*.db
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.vbproj.user
+*.vcxproj.user
+*.vcxproj.filters
+*_i.c
+*_p.c
+*.ncb
+*.opensdf
+*.log
+*.tlog
+*.sln.ide
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Avalonia specific
+*.pidb
+*.userprefs
+**/Properties/PublishProfiles/*.pubxml
+**/Properties/PublishProfiles/*.pubxml.user
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]uild/
+
+# Backup files
+*.bak
+*~

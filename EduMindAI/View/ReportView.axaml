@@ -1,0 +1,273 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:vm="using:EduMindAI.ViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="EduMindAI.Views.ReportView"
+             x:DataType="vm:ReportViewModel">
+    
+    <UserControl.Resources>
+        <!-- 定义主题画刷（默认亮色） -->
+        <SolidColorBrush x:Key="TitleBackgroundBrush" Color="White"/>
+        <SolidColorBrush x:Key="TitleTextBrush" Color="#2D2D2D"/>
+        <SolidColorBrush x:Key="SubtitleTextBrush" Color="#666666"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="White"/>
+        <SolidColorBrush x:Key="CardHoverBrush" Color="#F5F5F5"/>
+        <SolidColorBrush x:Key="CardTextBrush" Color="#2D2D2D"/>
+        <SolidColorBrush x:Key="PreviewTextBrush" Color="#666666"/>
+        <SolidColorBrush x:Key="SearchBoxBackgroundBrush" Color="#F5F5F5"/>
+        <SolidColorBrush x:Key="SearchBoxBorderBrush" Color="#E6E6E6"/>
+        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#F0F0F0"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#0078D4"/>
+        <SolidColorBrush x:Key="ProgressRingBrush" Color="#0078D4"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- 标题栏样式 -->
+        <Style Selector="Border.TitleBar">
+            <Setter Property="Background" Value="{StaticResource TitleBackgroundBrush}"/>
+            <Setter Property="Padding" Value="20,15"/>
+            <Setter Property="BoxShadow" Value="0 2 8 rgba(0,0,0,0.05)"/>
+        </Style>
+        
+        <!-- 卡片样式 -->
+        <Style Selector="Border.ReportCard">
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        
+        <Style Selector="Border.ReportCard:pointerover">
+            <Setter Property="Background" Value="{StaticResource CardHoverBrush}"/>
+        </Style>
+        
+        <!-- 文件名样式 -->
+        <Style Selector="TextBlock.FileName">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource CardTextBrush}"/>
+        </Style>
+        
+        <!-- 文件信息样式 -->
+        <Style Selector="TextBlock.FileInfo">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{StaticResource PreviewTextBrush}"/>
+        </Style>
+        
+        <!-- 按钮样式 -->
+        <Style Selector="Button.IconButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <Style Selector="Button.IconButton:pointerover">
+            <Setter Property="Background" Value="{StaticResource ButtonHoverBackgroundBrush}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+        
+        <!-- 强调按钮 -->
+        <Style Selector="Button.accent">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="20"/>
+        </Style>
+        
+        <!-- 进度环 -->
+        <Style Selector="ui|ProgressRing">
+            <Setter Property="Foreground" Value="{StaticResource ProgressRingBrush}"/>
+        </Style>
+        
+        <!-- 组合框样式 -->
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{StaticResource SearchBoxBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SearchBoxBorderBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource CardTextBrush}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+        
+        <!-- 文本块样式 -->
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource TitleTextBrush}"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Subtitle">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource SubtitleTextBrush}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <!-- 界面布局 -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部：报告生成区域 -->
+        <Border Grid.Row="0" Classes="TitleBar">
+            <StackPanel Spacing="15">
+                <TextBlock Text="📊 学习报告" Classes="Title"/>
+                
+                <!-- 报告周期选择 -->
+                <StackPanel Orientation="Horizontal" Spacing="15">
+                    <TextBlock Text="报告周期：" Classes="Subtitle" VerticalAlignment="Center"/>
+                    
+                    <ComboBox ItemsSource="{Binding PeriodOptions}"
+                              SelectedItem="{Binding SelectedPeriod}"
+                              Width="150"/>
+                    
+                    <TextBlock Text="从" Classes="Subtitle" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StartDate, StringFormat='{}{0:yyyy-MM-dd}'}" 
+                               Classes="Subtitle" VerticalAlignment="Center"/>
+                    <TextBlock Text="到" Classes="Subtitle" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding EndDate, StringFormat='{}{0:yyyy-MM-dd}'}" 
+                               Classes="Subtitle" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- 生成按钮和进度 -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0"
+                            Content="生成报告"
+                            Classes="accent"
+                            Padding="30,12"
+                            Command="{Binding GenerateReportCommand}"
+                            IsEnabled="{Binding !IsGenerating}"/>
+                    
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal" 
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                IsVisible="{Binding IsGenerating}">
+                        <ui:ProgressRing Width="20" Height="20" IsIndeterminate="True"/>
+                        <TextBlock Text="{Binding GeneratingProgress}" 
+                                   Margin="10,0,0,0"
+                                   Classes="Subtitle"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- 底部：已生成的报告列表 -->
+        <Border Grid.Row="1" 
+                Background="Transparent"
+                Padding="20">
+            <StackPanel>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" 
+                               Text="已生成的报告" 
+                               FontSize="18" 
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TitleTextBrush}"/>
+                    
+                    <Button Grid.Column="1"
+                            Content="打开文件夹"
+                            Classes="accent"
+                            CornerRadius="16"
+                            Padding="12,6"
+                            Command="{Binding OpenFolderCommand}"/>
+                </Grid>
+                
+                <!-- 报告列表 -->
+                <ScrollViewer Height="400" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Reports}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Classes="ReportCard">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <ui:SymbolIcon Grid.Column="0" 
+                                                      Symbol="Document" 
+                                                      FontSize="20"
+                                                      Foreground="{StaticResource AccentBrush}"/>
+                                        
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                            <TextBlock Text="{Binding FileName}" 
+                                                       Classes="FileName"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,4,0,0">
+                                                <TextBlock Classes="FileInfo">
+                                                    <TextBlock.Text>
+                                                        <Binding Path="CreatedTime" StringFormat="{}{0:yyyy-MM-dd HH:mm}"/>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding FileSize}" 
+                                                           Classes="FileInfo"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        
+                                        <Button Grid.Column="2"
+                                                Classes="IconButton"
+                                                Command="{Binding $parent[UserControl].DataContext.OpenReportCommand}"
+                                                CommandParameter="{Binding}">
+                                            <ui:SymbolIcon Symbol="Open" FontSize="16" 
+                                                           Foreground="{StaticResource AccentBrush}"/>
+                                        </Button>
+                                        
+                                        <Button Grid.Column="3"
+                                                Classes="IconButton"
+                                                Margin="4,0,0,0"
+                                                Command="{Binding $parent[UserControl].DataContext.DeleteReportCommand}"
+                                                CommandParameter="{Binding}">
+                                            <ui:SymbolIcon Symbol="Delete" FontSize="16" Foreground="#FF6666"/>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                
+                <!-- 空状态 -->
+                <Border IsVisible="{Binding HasNoReports}"
+                        Background="{StaticResource CardBackgroundBrush}"
+                        CornerRadius="12"
+                        Padding="40"
+                        Height="200"
+                        Margin="0,20,0,0">
+                    <StackPanel HorizontalAlignment="Center" 
+                              VerticalAlignment="Center"
+                              Spacing="10">
+                        <ui:SymbolIcon Symbol="Document" 
+                                      FontSize="48"
+                                      Foreground="{StaticResource SubtitleTextBrush}"/>
+                        <TextBlock Text="暂无生成的学习报告" 
+                                  FontSize="14"
+                                  Foreground="{StaticResource SubtitleTextBrush}"/>
+                        <TextBlock Text="点击上方按钮生成学习报告" 
+                                  FontSize="12"
+                                  Foreground="{StaticResource PreviewTextBrush}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
