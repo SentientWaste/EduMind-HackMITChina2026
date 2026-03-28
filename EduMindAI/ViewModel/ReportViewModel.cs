@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EduMindAI.Services;
+using FluentAvalonia.UI.Controls;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using System;
@@ -233,15 +234,17 @@ public partial class ReportViewModel : ObservableObject
     {
         if (report == null) return;
 
-        var messageBox = MessageBoxManager.GetMessageBoxStandard(
-            "确认删除",
-            $"确定要删除报告「{report.FileName}」吗？",
-            ButtonEnum.YesNo,
-            Icon.Question);
+        var dialog = new ContentDialog
+        {
+            Title = "确认删除",
+            Content = $"确定要删除报告「{report.FileName}」吗？",
+            PrimaryButtonText = "删除",
+            CloseButtonText = "取消"
+        };
 
-        var result = await messageBox.ShowAsync();
+        var result = await dialog.ShowAsync();
 
-        if (result == ButtonResult.Yes)
+        if (result == ContentDialogResult.Primary)
         {
             try
             {
@@ -253,12 +256,13 @@ public partial class ReportViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                var errorBox = MessageBoxManager.GetMessageBoxStandard(
-                    "删除失败",
-                    ex.Message,
-                    ButtonEnum.Ok,
-                    Icon.Error);
-                await errorBox.ShowAsync();
+                var errorDialog = new ContentDialog
+                {
+                    Title = "删除失败",
+                    Content = ex.Message,
+                    CloseButtonText = "确定"
+                };
+                await errorDialog.ShowAsync();
             }
         }
     }

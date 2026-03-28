@@ -1,10 +1,12 @@
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Threading;
 using EduMindAI.ViewModel;
 using EduMindAI.Views;
 using EduMindIAI.ViewModel;
 using FluentAvalonia.UI.Controls;
 using System;
+using System.Threading.Tasks;
 
 namespace EduMindAI;
 
@@ -30,14 +32,26 @@ public partial class MainWindow : Window {
         }
     }
 
-    public async void NavigateToSession(int sessionId) {
-        // 每次都全新
+    public async void NavigateToSession(int sessionId)
+    {
+        System.Diagnostics.Debug.WriteLine($"NavigateToSession 开始: {sessionId}");
+
+        var loadingView = new TextBlock
+        {
+            Text = "加载中...",
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+            FontSize = 16,
+            Foreground = Brushes.Gray
+        };
+        ContentFrame.Content = loadingView;
+
         var homeVm = new HomeViewModel();
+        await Task.Run(async () => await homeVm.LoadSession(sessionId));
 
-        Dispatcher.UIThread.Post(() => {
-            ContentFrame.Navigate(typeof(HomeView));
-        });
+        var homeView = new HomeView { DataContext = homeVm };
+        ContentFrame.Content = homeView;
 
-        await homeVm.LoadSession(sessionId);
+        System.Diagnostics.Debug.WriteLine($"NavigateToSession 完成");
     }
 }
