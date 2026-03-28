@@ -8,7 +8,7 @@ EduMind 结合现代化的 Fluent UI 设计、本地大语言模型 (Ollama) 和
 
 ## 💻 技术栈 | Tech Stack
 
-- C# / .NET 8.0
+- C# / .NET 10.0
 - Avalonia UI (跨平台 UI 框架)
 - FluentAvalonia (Fluent 设计语言)
 - CommunityToolkit.Mvvm (MVVM 工具包)
