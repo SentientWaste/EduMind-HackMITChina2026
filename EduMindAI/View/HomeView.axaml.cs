@@ -25,19 +25,13 @@ public partial class HomeView : UserControl
         DataContext = new HomeViewModel();
 
         // 初始化滚动事件
-        if (MessageScrollViewer != null)
-        {
-            MessageScrollViewer.ScrollChanged += (s, e) =>
+        MessageScrollViewer?.ScrollChanged += (s, e) =>
             {
                 if (e.ExtentDelta.Y > 0)
                 {
                     MessageScrollViewer.ScrollToEnd();
                 }
             };
-        }
-
-        // 启动动态点动画
-        StartDotAnimation();
 
         // 初始化语音服务
         try
@@ -62,33 +56,6 @@ public partial class HomeView : UserControl
         if (DataContext is HomeViewModel vm)
         {
             await vm.LoadSession(sessionId);
-        }
-    }
-    
-    private async void StartDotAnimation()
-    {
-        if (_isAnimating) return;
-        _isAnimating = true;
-
-        var dots = ThinkingDots;
-        if (dots == null) return;
-
-        while (_isAnimating)
-        {
-            if (DataContext is HomeViewModel vm && vm.IsAIThinking)
-            {
-                dots.Text = ".";
-                await Task.Delay(400);
-                dots.Text = "..";
-                await Task.Delay(400);
-                dots.Text = "...";
-                await Task.Delay(400);
-            }
-            else
-            {
-                dots.Text = "...";
-                await Task.Delay(100);
-            }
         }
     }
 
@@ -136,19 +103,5 @@ public partial class HomeView : UserControl
             _speechService.StopListening();
         }
 
-    }
-}
-
-// 转换器
-public class BoolToAlignmentConverter : IValueConverter
-{
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        return value is true ? Avalonia.Layout.HorizontalAlignment.Right : Avalonia.Layout.HorizontalAlignment.Left;
-    }
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
     }
 }

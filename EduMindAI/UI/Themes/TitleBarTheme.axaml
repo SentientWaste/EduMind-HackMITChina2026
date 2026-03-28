@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Height="30" Width="300">
+            <TitleBar Background="SkyBlue" Foreground="Black" />
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type TitleBar}" TargetType="TitleBar">
+        <Setter Property="MinHeight" Value="35" />
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                       VerticalAlignment="Stretch">
+                    <Panel Height="35" 
+                           VerticalAlignment="Top"
+                           Name="PART_MouseTracker"/>
+                
+                    <Panel x:Name="PART_Container">
+                        <Border Name="PART_Background"
+                                Background="{TemplateBinding Background}"
+                                IsHitTestVisible="False"/>
+                        
+                        <CaptionButtons VerticalAlignment="Top" 
+                                        Name="PART_CaptionButtons"
+                                        HorizontalAlignment="Right"
+                                        MinHeight="{TemplateBinding MinHeight}"
+                                        Foreground="{TemplateBinding Foreground}"/>
+                    </Panel>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:fullscreen">
+            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}"/>
+            
+            <Style Selector="^ /template/ Border#PART_Background">
+                <Setter Property="IsHitTestVisible" Value="True" />
+            </Style>
+            
+            <Style Selector="^ /template/ Panel#PART_MouseTracker">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            
+            <Style Selector="^ /template/ Panel#PART_Container">
+                <Setter Property="RenderTransform" Value="translateY(-30px)" />
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.25" />
+                    </Transitions>
+                </Setter>
+            </Style>
+            
+            <Style Selector="^:pointerover /template/ Panel#PART_Container">
+                <Setter Property="RenderTransform" Value="none" />
+            </Style>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

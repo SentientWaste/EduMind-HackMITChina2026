@@ -6,7 +6,7 @@ namespace EduMindAI.Models;
 
 public class ChatData
 {
-    public List<SessionData> Sessions { get; set; } = new();
+    public List<SessionData> Sessions { get; set; } = [];
 }
 
 public class SessionData
@@ -15,7 +15,7 @@ public class SessionData
     public string Title { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public List<MessageData> Messages { get; set; } = new();
+    public List<MessageData> Messages { get; set; } = [];
 }
 
 public class MessageData

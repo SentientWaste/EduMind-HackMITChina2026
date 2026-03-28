@@ -1,55 +1,43 @@
 using Avalonia.Controls;
-using Avalonia.Input;
-using EduMind.ViewModel;
-using EduMindAI;
+using Avalonia.Threading;
 using EduMindAI.ViewModel;
 using EduMindAI.Views;
 using EduMindIAI.ViewModel;
 using FluentAvalonia.UI.Controls;
-using System.Threading.Tasks;
+using System;
 
-namespace EduMindAI
-{
-    public partial class MainWindow : Window
-    {
-        private ReportViewModel? _reportViewModel;
-        public MainWindow()
-        {
-            InitializeComponent();
-            ContentFrame.Navigate(typeof(HomeView));
-            DataContext = new MainWindowViewModel();
-        }
+namespace EduMindAI;
 
+public partial class MainWindow : Window {
+    public MainWindow() {
+        InitializeComponent();
+        ContentFrame.Navigate(typeof(HomeView));
+        DataContext = new MainWindowViewModel();
+    }
 
-        private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
-        {
-            if (e.InvokedItemContainer is NavigationViewItem item && item.Tag is string tag)
-            {
-                if (tag == "Home")
+    private void OnNavigationViewItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e) {
+        if (e.InvokedItemContainer is NavigationViewItem item && item.Tag is string tag) {
+            if (tag == "Home")
                 ContentFrame.Navigate(typeof(HomeView));
-                else if (tag == "History")
-                    ContentFrame.Content = new HistoryView();
-                else if (tag == "Setting")
-                    ContentFrame.Navigate(typeof(SettingView));//FileSummaryView
-                else if (tag == "FileSummary")
-                    ContentFrame.Navigate(typeof(FileSummaryView));
-                else if (tag == "Report")
+            else if (tag == "History")
+                ContentFrame.Navigate(typeof(HistoryView));
+            else if (tag == "Setting")
+                ContentFrame.Navigate(typeof(SettingView));
+            else if (tag == "FileSummary")
+                ContentFrame.Navigate(typeof(FileSummaryView));
+            else if (tag == "Report")
                 ContentFrame.Navigate(typeof(ReportView));
-            }
         }
+    }
 
-        public async void NavigateToSession(int sessionId)
-        {
-            // 每次都全新
-            var homeVm = new HomeViewModel();
-            await homeVm.LoadSession(sessionId);
-            ContentFrame.Content = new HomeView { DataContext = homeVm };
-        }
+    public async void NavigateToSession(int sessionId) {
+        // 每次都全新
+        var homeVm = new HomeViewModel();
 
-        private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-                BeginMoveDrag(e);
-        }
+        Dispatcher.UIThread.Post(() => {
+            ContentFrame.Navigate(typeof(HomeView));
+        });
+
+        await homeVm.LoadSession(sessionId);
     }
 }

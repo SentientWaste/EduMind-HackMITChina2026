@@ -2,38 +2,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Width="950" Height="560"
+        mc:Ignorable="d"
         xmlns:system="using:System"
         x:Class="EduMindAI.MainWindow"
         Title="EduMindAI"
-        xmlns:ui="using:FluentAvalonia.UI.Controls"
         xmlns:vm="using:EduMindAI"
-        ExtendClientAreaToDecorationsHint="True"
-        SystemDecorations="Full"
-		ExtendClientAreaChromeHints="Default">
-    <Window.Resources>
-        <Easing x:Key="FluentStandardEasing">CubicEaseOut</Easing>
-        <system:TimeSpan x:Key="FluentDuration">0:0:0.18</system:TimeSpan>
-    </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>  <!-- 可拖动区域 -->
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" 
-            Background="Transparent"
-            PointerPressed="OnTitleBarPointerPressed"
-            IsHitTestVisible="True">
-        </Border>
-        <ui:NavigationView x:Name="NavView"
-                           Grid.Row="1"
-                           IsSettingsVisible="False"
-                           PaneDisplayMode="LeftCompact" 
-                           IsPaneOpen="True"
-                           OpenPaneLength="260"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        Width="950"
+        Height="560"
+        MinWidth="800"
+        MinHeight="450"
+        ExtendClientAreaTitleBarHeightHint="35"
+		ExtendClientAreaChromeHints="PreferSystemChrome"
+        ExtendClientAreaToDecorationsHint="True">
+    <Panel Margin="0 35 0 0">
+        <ui:NavigationView Name="NavView"
+                           IsPaneOpen="False"
+                           OpenPaneLength="260"  
+                           PaneTitle="EduMindAI"
+                           PaneDisplayMode="Left"
                            CompactPaneLength="50"
-                           ItemInvoked="OnNavigationViewItemInvoked">
-           
+                           IsSettingsVisible="False"
+                           ItemInvoked="OnNavigationViewItemInvoked"
+                           Grid.Row="1">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem IconSource="Home" Tag="Home" Content="主页"/>
                 <ui:NavigationViewItem IconSource="Zoom" Tag="History" Content="历史"/>
@@ -45,8 +36,8 @@
 				<ui:NavigationViewItem IconSource="Setting" Tag="Setting" Content="设置"/>
             </ui:NavigationView.FooterMenuItems>
             <ui:NavigationView.Content>
-                <ui:Frame x:Name="ContentFrame" Padding="20"/>
+                <ui:Frame MaxWidth="1000" Name="ContentFrame"/>
             </ui:NavigationView.Content>
         </ui:NavigationView>
-    </Grid>
+    </Panel>
 </Window>

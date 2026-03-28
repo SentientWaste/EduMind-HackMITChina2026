@@ -3,60 +3,75 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:EduMindAI.ViewModel"
-             
-        xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EduMindAI.SettingView"
              x:DataType="vm:SettingViewModel">
 
-<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+<Grid RowDefinitions="auto *">
+    <TextBlock Text="设置" 
+               Margin="24 16"
+               Theme="{StaticResource TitleTextBlockStyle}"/>
 
-        <TextBlock Text="设置" 
-                   FontSize="26" 
-                   FontWeight="Bold" 
-                   Margin="30 30 30 20"/>
+    <ScrollViewer Grid.Row="1" 
+                  Padding="24 0 24 24">
+        <StackPanel Spacing="10">
+            <ui:SettingsExpander Header="版本号">
+                <ui:SettingsExpander.Footer>
+                    <HyperlinkButton Content="Beta-0.0.2"/>
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
 
-        <ScrollViewer Grid.Row="1" 
-                      Margin="30 0 30 30">
-            <StackPanel Spacing="10">
-                <Expander Header="基础设置" 
-                      CornerRadius="10"
-                      VerticalAlignment="Top"
-                      IsExpanded="True"
-                      HorizontalAlignment="Stretch">
-                    <StackPanel>
-						<TextBlock Text="模型选择"/>
-                        <WrapPanel>
-                            <ui:FAComboBox Width="125" CornerRadius="10" ItemsSource="{Binding Models}"
-          SelectedItem="{Binding SelectedModel}"
-                                            Margin="0 10 10 0">
-                            </ui:FAComboBox>
-                        </WrapPanel>
-                    </StackPanel>
-                </Expander>
-                <Expander Header="详情简介" 
-                      CornerRadius="10"
-                      VerticalAlignment="Top"
-                      IsExpanded="True"
-                      HorizontalAlignment="Stretch">
-                    <StackPanel>
-                        <WrapPanel>
-						    <TextBlock Text="版本号"/>						
-                            <TextBlock Margin="10 0 0 0" Text="Beta-0.0.2"/>
-                        </WrapPanel>
-						<TextBlock Text="引用项目" Margin="0 10 0 0"/>
-						<HyperlinkButton Content="Avalonia - https://avaloniaui.net/" NavigateUri="https://avaloniaui.net/" Margin="0 5 0 0"/>
-						<HyperlinkButton Content="FluentAvalonia - https://github.com/amwx/FluentAvalonia" NavigateUri="https://github.com/amwx/FluentAvalonia" Margin="0 5 0 0"/>
-						<HyperlinkButton NavigateUri="https://ollama.com/" Content="Ollama qwen3.5 - https://ollama.com/" Margin="0 5 0 0"/>
-						<HyperlinkButton NavigateUri="https://learn.microsoft.com/zh-cn/dotnet/communitytoolkit/mvvm/" Content="CommunityToolkit.Mvvm - https://learn.microsoft.com/zh-cn/dotnet/communitytoolkit/mvvm/" Margin="0 5 0 0"/>
-						<HyperlinkButton NavigateUri="https://www.nuget.org/packages/DocumentFormat.OpenXml/" Content="DocumentFormat.OpenXml - https://www.nuget.org/packages/DocumentFormat.OpenXml/" Margin="0 5 0 0"/>
-                    </StackPanel>
-                </Expander>
-            </StackPanel>
-        </ScrollViewer>
+            <ui:SettingsExpander Header="主题切换">
+                <ui:SettingsExpander.Footer>
+                    <ui:FAComboBox Width="125" 
+                                   ItemsSource="{Binding Themes}"
+                                   SelectedIndex="{Binding SelectedThemeIndex}"/>
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            
+            <ui:SettingsExpander Header="模型选择">
+                <ui:SettingsExpander.Footer>
+                    <ui:FAComboBox Width="125" 
+                                   ItemsSource="{Binding Models}"
+                                   SelectedItem="{Binding SelectedModel}">
+                    </ui:FAComboBox>
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="引用项目">
+                <ui:SettingsExpanderItem Content="Avalonia">
+                    <ui:SettingsExpanderItem.Footer>
+                        <HyperlinkButton Content="avaloniaui.net" NavigateUri="https://avaloniaui.net/"/>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
+                
+                <ui:SettingsExpanderItem Content="FluentAvalonia">
+                    <ui:SettingsExpanderItem.Footer>
+                        <HyperlinkButton Content="FluentAvalonia" NavigateUri="https://github.com/amwx/FluentAvalonia"/>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
+                
+                <ui:SettingsExpanderItem Content="Ollama qwen3.5">
+                    <ui:SettingsExpanderItem.Footer>
+                        <HyperlinkButton Content="ollama.com" NavigateUri="https://ollama.com"/>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
+                
+                <ui:SettingsExpanderItem Content="CommunityToolkit.Mvvm">
+                    <ui:SettingsExpanderItem.Footer>
+                        <HyperlinkButton Content="CommunityToolkit.Mvvm" NavigateUri="https://learn.microsoft.com/zh-cn/dotnet/communitytoolkit/mvvm/"/>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
+                                  
+                <ui:SettingsExpanderItem Content="DocumentFormat.OpenXml">
+                    <ui:SettingsExpanderItem.Footer>
+                        <HyperlinkButton Content="DocumentFormat.OpenXml" NavigateUri="https://www.nuget.org/packages/DocumentFormat.OpenXml"/>
+                    </ui:SettingsExpanderItem.Footer>
+                </ui:SettingsExpanderItem>
+            </ui:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
     </Grid>
 </UserControl>
