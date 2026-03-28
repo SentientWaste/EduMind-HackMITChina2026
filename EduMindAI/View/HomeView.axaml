@@ -11,92 +11,57 @@
              x:Class="EduMindAI.Views.HomeView"
              x:DataType="vm:HomeViewModel">
     <UserControl.Resources>
-        <!-- 亮色主题画刷 -->
-        <SolidColorBrush x:Key="UserMessageBrush" Color="#0078D4"/>
-        <SolidColorBrush x:Key="AIMessageBrush" Color="#F0F0F0"/>
-        <SolidColorBrush x:Key="UserTextBrush" Color="White"/>
-        <SolidColorBrush x:Key="AITextBrush" Color="#2D2D2D"/>
-        <SolidColorBrush x:Key="TimestampBrush" Color="#666666"/>
-        <SolidColorBrush x:Key="InputBackgroundBrush" Color="#20FFFFFF"/>
-        <SolidColorBrush x:Key="InputBorderBrush" Color="#E6E6E6"/>
-        
-        <!-- 麦克风按钮悬停颜色 -->
-        <SolidColorBrush x:Key="MicButtonHoverBackgroundLight" Color="#E0E0E0"/>
-        <SolidColorBrush x:Key="MicButtonPressedBackgroundLight" Color="#C0C0C0"/>
-        <SolidColorBrush x:Key="MicButtonHoverBackgroundDark" Color="#404040"/>
-        <SolidColorBrush x:Key="MicButtonPressedBackgroundDark" Color="#505050"/>
-        
-        <DynamicResource x:Key="MicButtonHoverBackground" ResourceKey="MicButtonHoverBackgroundLight"/>
-        <DynamicResource x:Key="MicButtonPressedBackground" ResourceKey="MicButtonPressedBackgroundLight"/>
+        <SolidColorBrush x:Key="UserBubbleForegroundBrush" Color="White"/>
+        <SolidColorBrush x:Key="UserBubbleBackgroundBrush" Color="#0078D4"/>
+        <SolidColorBrush x:Key="TimeStampForegroundBrush" Color="#666666"/>
+        <SolidColorBrush x:Key="ChatInputBackgroundBrush" Color="#20FFFFFF"/>
+        <SolidColorBrush x:Key="AssistantBubbleBackgroundBrush" Color="#e5e5e5"/>
+        <SolidColorBrush x:Key="AssistantBubbleForegroundBrush" Color="#2D2D2D"/>
     </UserControl.Resources>
-
+    
     <UserControl.Styles>
-    <!-- 麦克风按钮样式 -->
-    <Style Selector="Button.MicButton">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="Cursor" Value="Hand"/>
-    </Style>
-    
-    <!-- 麦克风按钮悬停效果 -->
-    <Style Selector="Button.MicButton:pointerover">
-        <Setter Property="Background" Value="#E0E0E0"/>
-        <Setter Property="CornerRadius" Value="20"/>
-    </Style>
-    
-    <!-- 麦克风按钮按下效果 -->
-    <Style Selector="Button.MicButton:pressed">
-        <Setter Property="Background" Value="#C0C0C0"/>
-        <Setter Property="CornerRadius" Value="20"/>
-    </Style>
-        
         <!-- 消息气泡样式 - 用户消息（右） -->
         <Style Selector="Border.UserMessage">
-            <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource UserBubbleBackgroundBrush}"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="CornerRadius" Value="18,18,4,18"/>
-            <Setter Property="Margin" Value="100,0,0,10"/>
-            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="CornerRadius" Value="16 16 4 16"/>
+            <Setter Property="Padding" Value="16 12"/>
             <Setter Property="MaxWidth" Value="500"/>
         </Style>
         
         <!-- 消息气泡样式 - AI消息（左） -->
         <Style Selector="Border.AIMessage">
-            <Setter Property="Background" Value="{StaticResource AIMessageBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource AssistantBubbleBackgroundBrush}"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="CornerRadius" Value="18,18,18,4"/>
-            <Setter Property="Margin" Value="0,0,100,10"/>
-            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="CornerRadius" Value="16 16 16 4"/>
+            <Setter Property="Padding" Value="16 12"/>
             <Setter Property="MaxWidth" Value="500"/>
         </Style>
         
         <!-- 消息文本样式 - 用户 -->
         <Style Selector="TextBlock.UserText">
-            <Setter Property="Foreground" Value="{StaticResource UserTextBrush}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource UserBubbleForegroundBrush}"/>
         </Style>
         
         <!-- 消息文本样式 - AI -->
         <Style Selector="TextBlock.AIText">
-            <Setter Property="Foreground" Value="{StaticResource AITextBrush}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource AssistantBubbleForegroundBrush}"/>
         </Style>
         
         <!-- 时间戳样式 -->
         <Style Selector="TextBlock.Timestamp">
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Foreground" Value="{StaticResource TimestampBrush}"/>
-            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource TimeStampForegroundBrush}"/>
         </Style>
         
         <!-- 输入框样式 -->
         <Style Selector="TextBox.ChatInput">
-            <Setter Property="Background" Value="{StaticResource InputBackgroundBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource ChatInputBackgroundBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="Padding" Value="16,12"/>
@@ -109,11 +74,8 @@
 
         <!-- 复制按钮 -->
         <Style Selector="Button.CopyButton">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="red"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
-            <Setter Property="Opacity" Value="0.5"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Transitions">
                 <Setter.Value>
@@ -124,42 +86,34 @@
             </Setter>
         </Style>
         
-        <Style Selector="Button.CopyButton:pointerover">
-            <Setter Property="Opacity" Value="1"/>
-        </Style>
         
         <!-- 输入框焦点样式 -->
         <Style Selector="TextBox.ChatInput:focus">
-            <Setter Property="BorderBrush" Value="{StaticResource UserMessageBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UserMessageBrush}"/>
         </Style>
         
         <!-- AI 思考状态样式 -->
         <Style Selector="TextBlock.ThinkingText">
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{StaticResource TimestampBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TimestampBrush}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </UserControl.Styles>
 
     <!-- 界面布局 -->
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
+    <Grid RowDefinitions="* auto auto">
         <!-- 聊天消息列表 -->
-        <ScrollViewer Grid.Row="0" 
-                      x:Name="MessageScrollViewer"
-                      Padding="24"
+        <ScrollViewer Padding="24"
+                      Name="MessageScrollViewer"
+                      VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto">
-            
+                      Grid.Row="0">      
             <StackPanel>
+                <!--这里本因用 DataTemplates 重写，但我力竭了就算了-->
                 <ItemsControl ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Spacing="5"/>
+                            <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     
@@ -167,77 +121,62 @@
                         <DataTemplate>
                             <StackPanel>
                                 <!-- 用户消息 -->
-                                <Border Classes="UserMessage" 
+                                <Border Classes="UserMessage"
                                         IsVisible="{Binding IsUser}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <TextBlock Grid.Column="0" 
-                                                   Text="{Binding Content}" 
-                                                   Classes="UserText"
-                                                   TextWrapping="Wrap"
-                                                   xml:space="preserve"/>
-                                        
-                                        <Button Grid.Column="1"
-                                                Classes="CopyButton"
-                                                Margin="8,0,0,0"
-                                                Width="30"
-                                                Command="{Binding $parent[UserControl].DataContext.CopyMessageCommand}"
-                                                CommandParameter="{Binding}">
-                                            <ui:SymbolIcon Symbol="Copy" FontSize="14"/>
-                                        </Button>
-                                    </Grid>
+                                    <TextBlock Classes="UserText"
+                                               TextWrapping="Wrap"
+                                               Text="{Binding Content}"
+                                               Grid.Column="0" 
+                                               xml:space="preserve"/>
                                 </Border>
                                 
                                 <!-- AI 消息 -->
-                                <Border Classes="AIMessage" 
-                                        IsVisible="{Binding !IsUser}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <TextBlock Grid.Column="0" 
-                                                   Text="{Binding Content}" 
-                                                   Classes="AIText"
-                                                   TextWrapping="Wrap"
-                                                   xml:space="preserve"/>
-                                        
-                                        <Button Grid.Column="1"
-                                                Classes="CopyButton"
-                                                Width="30"
-                                                Margin="8,0,0,0"
-                                                Command="{Binding $parent[UserControl].DataContext.CopyMessageCommand}"
-                                                CommandParameter="{Binding}">
-                                            <ui:SymbolIcon Symbol="Copy" FontSize="14"/>
-                                        </Button>
-                                    </Grid>
+                                <Border Classes="AIMessage"
+                                        IsVisible="{Binding !IsUser}"
+                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                    <TextBlock Classes="AIText"
+                                               TextWrapping="Wrap"
+                                               Text="{Binding Content}"
+                                               xml:space="preserve"
+                                               Grid.Column="0" />
                                 </Border>
                                 
-                                <!-- 时间戳 -->
-                                <TextBlock Text="{Binding Timestamp}" 
-                                          Classes="Timestamp"
-                                          HorizontalAlignment="{Binding IsUser, Converter={StaticResource BoolToAlignmentConverter}}"/>
+                                <!-- ToolBar -->
+                                <Grid Margin="0 4 0 16"
+                                      ColumnDefinitions="auto 1 auto"
+                                      HorizontalAlignment="{Binding IsUser, Converter={StaticResource BoolToAlignmentConverter}}">                                        
+                                    <Button Padding="4"
+                                            CommandParameter="{Binding}"
+                                            Theme="{StaticResource TransparentButton}"
+                                            Command="{Binding $parent[UserControl].DataContext.CopyMessageCommand}"
+                                            Grid.Column="0">
+                                        <ui:SymbolIcon Symbol="Copy" FontSize="18"/>
+                                    </Button>
+
+                                    <Border Width="1"
+                                            Margin="4 2 8 2"
+                                            VerticalAlignment="Stretch"
+                                            Background="{DynamicResource ControlStrokeColorSecondaryBrush}"
+                                            Grid.Column="1"/>
+
+                                    <TextBlock Classes="Timestamp"
+                                               Text="{Binding Timestamp}"
+                                               Grid.Column="2"/>
+                                </Grid>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 
                 <!-- AI 思考状态 -->
-                <Border IsVisible="{Binding IsAIThinking}"
-                        HorizontalAlignment="Left"
-                        Margin="0,10,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="AI 正在回复" 
+                <Border  HorizontalAlignment="Left"
+                         IsVisible="{Binding IsAIThinking}">
+                    <StackPanel Spacing="0" Orientation="Horizontal">
+                        <ui:ProgressRing Height="20" 
+                                         IsIndeterminate="{Binding IsAIThinking}"/>
+
+                        <TextBlock Text="AI 正在回复..." 
                                   Classes="ThinkingText"/>
-                        <TextBlock x:Name="ThinkingDots" 
-                                  Text="..." 
-                                  Classes="ThinkingText"
-                                  Margin="2,0,0,0"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -246,45 +185,49 @@
         <!-- 底部输入区域 -->
         <Border Grid.Row="1" 
                 Background="Transparent"
-                Padding="24">
+                Padding="24 24 24 0">
             
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- 麦克风按钮 -->
-                <Button Grid.Column="0" 
-                        Margin="0,0,10,0"
-                        Classes="MicButton"
-                        Width="40" Height="40"
-                        Command="{Binding ToggleListeningCommand}">
-                    <ui:SymbolIcon Symbol="Microphone" 
-                                  FontSize="20"
-                                  Foreground="{Binding IsListening, Converter={StaticResource BoolToColorConverter}}"/>
-                </Button>
-
+            <Grid ColumnDefinitions="auto * auto">
                 <!-- 输入框 -->
-                <TextBox Grid.Column="1" 
-                         x:Name="MessageInput"
-                         Classes="ChatInput"
+                <TextBox Name="MessageInput"
+                         KeyDown="OnMessageInputKeyDown"
+                         VerticalContentAlignment="Center"
                          Text="{Binding CurrentMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         KeyDown="OnMessageInputKeyDown"/>
-
-                <!-- 发送按钮 -->
-                <Button Grid.Column="2" 
-                        Margin="10,0,0,0"
-                        Width="40" Height="40"
-                        Classes="accent"
-                        CornerRadius="20"
-                        Command="{Binding SendMessageCommand}">
-                    <ui:SymbolIcon Symbol="Send" 
-                                  FontSize="16"
-                                  Foreground="White"/>
-                </Button>
+                         Grid.Column="1">
+                    <TextBox.InnerLeftContent>
+                        <Button Width="40"
+                                Height="40"
+                                Margin="10 8"
+                                CornerRadius="20"
+                                Command="{Binding ToggleListeningCommand}"
+                                Theme="{StaticResource TransparentButton}">
+                            <ui:SymbolIcon FontSize="24"
+                                           Symbol="Microphone"/>
+                        </Button>
+                    </TextBox.InnerLeftContent>
+                    
+                    <TextBox.InnerRightContent>
+                        <Button Width="40"
+                                Height="40"
+                                Margin="10 8"
+                                CornerRadius="20"
+                                VerticalContentAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Command="{Binding SendMessageCommand}"
+                                Theme="{StaticResource TransparentButton}">
+                            <ui:SymbolIcon Symbol="Send"
+                                           FontSize="24"
+                                           HorizontalAlignment="Right"/>
+                        </Button>
+                    </TextBox.InnerRightContent>
+                </TextBox>
             </Grid>
         </Border>
+
+        <TextBlock FontSize="10"
+                   Margin="0 4 0 24"
+                   HorizontalAlignment="Center"
+                   Text="内容由AI生成，可能不准确，请注意核实"
+                   Grid.Row="2"/>
     </Grid>
 </UserControl>
